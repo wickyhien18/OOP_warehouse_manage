@@ -1,0 +1,8 @@
+flask
+flask-cors
+flasgger
+pyodbc
+python-dotenv
+flask-jwt-extended
+openpyxl
+pandas
