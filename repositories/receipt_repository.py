@@ -48,14 +48,13 @@ class ReceiptRepository(BaseRepository):
 
     def create_receipt(self, receipt_type: str, warehouse_id, staff_id, partner_name: str):
         """
-        Dùng OUTPUT INSERTED.id để lấy ID ngay lập tức (SQL Server).
-        query_db vì cần đọc kết quả trả về.
+        Dùng OUTPUT INSERTED.id để lấy ID vừa insert (SQL Server).
+        Trả về integer ID, hoặc None nếu thất bại.
         """
-        return self.query_db(
+        return self.insert_returning_id(
             "INSERT INTO Receipts (type, warehouse_id, staff_id, partner_name) "
             "OUTPUT INSERTED.id VALUES (?, ?, ?, ?)",
-            (receipt_type, warehouse_id, staff_id, partner_name),
-            one=True
+            (receipt_type, warehouse_id, staff_id, partner_name)
         )
 
     def add_detail(self, receipt_id, product_id, quantity, price):

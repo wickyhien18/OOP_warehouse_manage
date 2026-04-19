@@ -61,10 +61,9 @@ class ReceiptService:
 
         self._validate_products_exist(items)
 
-        receipt = self._repo.create_receipt('INBOUND', warehouse_id, staff_id, partner_name)
-        if not receipt:
+        receipt_id = self._repo.create_receipt('INBOUND', warehouse_id, staff_id, partner_name)
+        if not receipt_id:
             abort(500, description="Đã xảy ra lỗi khi thêm thông tin phiếu")
-        receipt_id = receipt['id']
 
         for item in items:
             name = item['product_name']
@@ -99,10 +98,9 @@ class ReceiptService:
         self._validate_products_exist(items)
         self._validate_outbound_stock(warehouse_id, items)
 
-        receipt = self._repo.create_receipt('OUTBOUND', warehouse_id, staff_id, partner_name)
-        if not receipt:
+        receipt_id = self._repo.create_receipt('OUTBOUND', warehouse_id, staff_id, partner_name)
+        if not receipt_id:
             abort(500, description="Đã xảy ra lỗi khi thêm thông tin phiếu")
-        receipt_id = receipt['id']
 
         for item in items:
             name = item['product_name']

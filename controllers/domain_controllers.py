@@ -135,7 +135,7 @@ def update_product(id):
       403:
         description: Không có quyền
     """
-    if get_jwt().get("role") != "MANAGER":
+    if get_jwt().get("role") not in ("MANAGER", "ADMIN"):
         abort(403, description="Bạn không có quyền thực hiện hành động này")
     _prod_svc.update(id, request.get_json() or {})
     return jsonify({'success': True, 'message': 'Thông tin sản phẩm đã được cập nhật'}), 200
@@ -162,7 +162,7 @@ def delete_product(id):
       403:
         description: Không có quyền
     """
-    if get_jwt().get("role") != "MANAGER":
+    if get_jwt().get("role") not in ("MANAGER", "ADMIN"):
         abort(403, description="Bạn không có quyền thực hiện hành động này")
     _prod_svc.delete(id)
     return jsonify({'success': True, 'message': 'Thông tin sản phẩm đã được xóa'}), 200

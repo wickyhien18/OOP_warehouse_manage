@@ -66,6 +66,27 @@ class BaseRepository:
         finally:
             conn.close()
 
+    def insert_returning_id(self, query: str, args=()):
+        """
+        Dùng cho INSERT ... OUTPUT INSERTED.id (SQL Server).
+        query_db thông thường không commit nên OUTPUT không lưu được.
+        Method này execute + commit + trả về id.
+        """
+        conn = self._db.get_connection()
+        if conn is None:
+            return None
+        try:
+            cursor = conn.cursor()
+            cursor.execute(query, args)
+            row = cursor.fetchone()
+            conn.commit()
+            return row[0] if row else None
+        except Exception as e:
+            conn.rollback()
+            raise e
+        finally:
+            conn.close()
+
     def get_raw_connection(self):
         """Trả về raw connection để dùng transaction thủ công."""
         return self._db.get_connection()
