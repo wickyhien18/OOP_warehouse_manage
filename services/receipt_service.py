@@ -118,6 +118,64 @@ class ReceiptService:
             if not self._repo.add_inventory_log(product_id, warehouse_id, quantity, 'OUTBOUND', receipt_id):
                 abort(500, description="Đã xảy ra lỗi khi thêm thông tin nhật ký kho")
 
+        # ── Create audit (Kiểm kê) ────────────────────────────────────────────────
+
+    def create_audit(self, warehouse_name, staff_name, partner_name, items):
+        """
+        Xử lý nghiệp vụ kiểm kê: Tính chênh lệch và cập nhật lại tồn kho thực tế.
+        """
+        if not all([warehouse_name, staff_name, partner_name, items]):
+            abort(400, description="Thông tin phiếu kiểm kê không được để trống")
+
+        warehouse_id = self._resolve_warehouse(warehouse_name)
+        staff_id = self._resolve_staff(staff_name)
+        partner_name = str(partner_name).strip()
+
+        self._validate_products_exist(items)
+
+        # 1. Tạo phiếu với type 'AUDIT'
+        receipt_id = self._repo.create_receipt('AUDIT', warehouse_id, staff_id, partner_name)
+        if not receipt_id:
+            abort(500, description="Đã xảy ra lỗi khi thêm thông tin phiếu kiểm kê")
+
+        for item in items:
+            name = item['product_name']
+            actual_qty = int(item['quantity'])
+            product_id = self._repo.find_product_id_by_name(name)
+
+            # Lấy thông tin tồn kho hiện tại trong hệ thống
+            inv = self._repo.find_inventory(warehouse_id, product_id)
+            system_qty = inv['quantity'] if inv else 0
+
+            # Tính toán chênh lệch để ghi Log (Thực tế - Hệ thống)
+            diff_qty = actual_qty - system_qty
+
+            if inv is None:
+                # Nếu chưa có bản ghi trong Inventory, phải tạo mới
+                if not self._repo.create_inventory(warehouse_id, product_id, actual_qty):
+                    abort(500, description="Lỗi tạo tồn kho mới")
+            else:
+                # Nếu đã có, dùng hàm set_inventory_absolute vừa thêm ở bước 1
+                if not self._repo.set_inventory_absolute(inv['id'], actual_qty):
+                    abort(500, description="Lỗi cập nhật tồn kho tuyệt đối")
+
+            # 2. Thêm chi tiết phiếu (Giá kiểm kê mặc định là 0)
+            if not self._repo.add_detail(receipt_id, product_id, actual_qty, 0):
+                abort(500, description="Đã xảy ra lỗi khi thêm chi tiết phiếu kiểm kê")
+
+            # 3. Cập nhật số dư kho khớp với số lượng thực tế
+            if inv is None:
+                if not self._repo.create_inventory(warehouse_id, product_id, actual_qty):
+                    abort(500, description="Đã xảy ra lỗi khi tạo tồn kho mới từ kiểm kê")
+            else:
+                # Dùng hàm set_inventory_absolute đã thêm vào Repository
+                if not self._repo.set_inventory_absolute(inv['id'], actual_qty):
+                    abort(500, description="Đã xảy ra lỗi khi điều chỉnh tồn kho")
+
+            # 4. Ghi nhật ký biến động với số lượng chênh lệch (AUDIT)
+            if not self._repo.add_inventory_log(product_id, warehouse_id, diff_qty, 'AUDIT', receipt_id):
+                abort(500, description="Đã xảy ra lỗi khi ghi nhật ký kiểm kê")
+
     # ── Read ──────────────────────────────────────────────────────────────────
 
     def _group_rows(self, rows: list, type_key='type') -> list:

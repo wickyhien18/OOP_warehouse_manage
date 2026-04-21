@@ -1,58 +1,27 @@
 <!doctype html>
-
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
-
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
-
-=========================================================
- -->
-<!-- beautify ignore:start -->
-<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default">
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Danh sách phiếu Kho</title>
 
-    <title>Product Form</title>
-
-    <meta name="description" content="" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
-
-    <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
 
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../assets/vendor/css/core.css" />
+    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" />
     <link rel="stylesheet" href="../assets/css/demo.css" />
-
-    <!-- Vendors CSS -->
     <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    <!-- Page CSS -->
-
-    <!-- Helpers -->
     <script src="../assets/vendor/js/helpers.js"></script>
-
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/user.js"></script>
 </head>
 
 <body>
-    <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             <!-- Menu -->
@@ -178,7 +147,7 @@
                         </li>
                         <li class="menu-item">
                             <a href="receipt-list.html" class="menu-link">
-                                <i class="menu-icon tf-icons bx bx-collection"></i>
+                                <i class="menu-icon tf-icons bx  bx-collection"></i>
                                 <div data-i18n="In/OutBound">In/OutBound</div>
                             </a>
                         </li>
@@ -188,6 +157,7 @@
                                 <div data-i18n="Receipt">Receipt</div>
                             </a>
                         </li>
+
                         <!-- Misc -->
                         <li class="menu-header small text-uppercase">
                             <span class="menu-header-text">Admin</span>
@@ -232,7 +202,6 @@
                     </div>
 
                     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
                             <div class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -259,163 +228,62 @@
 
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
-                    <!-- Content -->
-
                     <div class="container-xxl flex-grow-1 container-p-y">
-                        <h4 class="fw-bold py-3 mb-4">Product Form</h4>
-
-                        <!-- Basic Layout & Basic with Icons -->
-                        <div class="row">
-                            <!-- Basic Layout -->
-                            <div class="col-xxl">
-                                <div class="card mb-4">
-                                    <div class="card-header d-flex align-items-center justify-content-between">
-                                        <h5 class="mb-0">Add Product</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <form>
-                                            <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="basic-default-sku">SKU</label
-                          >
-                          <div class="col-sm-10">
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="basic-default-sku"
-                              placeholder="SP001"
-                            />
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label
-                            class="col-sm-2 col-form-label"
-                            for="basic-default-product-name"
-                            >Product Name</label
-                          >
-                          <div class="col-sm-10">
-                            <input
-                              type="text"
-                              class="form-control"
-                              id="basic-default-product-name"
-                            />
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label
-                            class="col-sm-2 col-form-label"
-                            for="basic-default-category-name"
-                            >Category Name</label
-                          >
-                          <div class="col-sm-10">
-                            <select
-                              id="categorySelect"
-                              class="form-select"
-                            ></select>
-                          </div>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label
-                            class="col-sm-2 col-form-label"
-                            for="basic-default-min-stock"
-                            >Min-Stock</label
-                          >
-                          <div class="col-sm-10">
-                            <div class="input-group input-group-merge">
-                              <input
-                                type="number"
-                                id="basic-default-min-stock"
-                                class="form-control"
-                              />
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="fw-bold py-3 mb-0">Quản lý Phiếu Nhập / Xuất</h4>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success" onclick="window.location.href='receipt-form.html?type=inbound'">
+                    <i class="bx bx-plus me-1"></i> Nhập kho
+                  </button>
+                                <button type="button" class="btn btn-danger" onclick="window.location.href='receipt-form.html?type=outbound'">
+                    <i class="bx bx-minus me-1"></i> Xuất kho
+                  </button>
+                                <button type="button" class="btn btn-warning" onclick="window.location.href='receipt-form.html?type=audit'">
+        <i class="bx bx-check-shield me-1"></i> Kiểm kê
+    </button>
                             </div>
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <label
-                            class="col-sm-2 col-form-label"
-                            for="basic-default-description"
-                            >Description</label
-                          >
-                          <div class="col-sm-10">
-                            <textarea
-                              id="basic-default-description"
-                              class="form-control"
-                            ></textarea>
-                          </div>
-                        </div>
-                        <div class="mb-3 row">
-                          <label
-                            class="col-sm-2 col-form-label"
-                            for="basic-default-created-at"
-                            >Created-At</label
-                          >
-                          <div class="col-md-10">
-                            <input
-                              class="form-control"
-                              type="datetime-local"
-                              id="basic-default-created-at"
-                            />
-                          </div>
                         </div>
 
-                        <div class="row justify-content-end">
-                          <div class="col-sm-10">
-                            <button type="submit" class="btn btn-primary">
-                              Add
-                            </button>
-                            <button
-                              type="button"
-                              class="btn btn-outline-primary"
-                              onclick="
-                                window.location.href = 'product-table.html'
-                              "
-                            >
-                              Back
-                            </button>
-                          </div>
+                        <div class="card">
+                            <h5 class="card-header">Lịch sử giao dịch kho</h5>
+                            <div class="table-responsive text-nowrap">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Loại Phiếu</th>
+                                            <th>Kho</th>
+                                            <th>Nhân viên</th>
+                                            <th>Đối tác</th>
+                                            <th>Thời gian</th>
+                                            <th>Số lượng SP</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="receiptsTableBody">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                      </form>
                     </div>
-                  </div>
+                    <div class="content-backdrop fade"></div>
                 </div>
-              </div>
+                <!-- Content wrapper -->
             </div>
-            <!-- / Content -->
+            <!-- / Layout page -->
+            </div>
 
-            <!-- Footer -->
-            <!-- / Footer -->
-
-            <div class="content-backdrop fade"></div>
-          </div>
-          <!-- Content wrapper -->
+            <!-- Overlay -->
+            <div class="layout-overlay layout-menu-toggle"></div>
         </div>
-        <!-- / Layout page -->
-      </div>
 
-      <!-- Overlay -->
-      <div class="layout-overlay layout-menu-toggle"></div>
-    </div>
-    <!-- / Layout wrapper -->
+        <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+        <script src="../assets/vendor/libs/popper/popper.js"></script>
+        <script src="../assets/vendor/js/bootstrap.js"></script>
+        <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="../assets/vendor/js/menu.js"></script>
+        <script src="../assets/js/main.js"></script>
+        <script src="../js/receipt-table.js"></script>
+</body>
 
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="../assets/vendor/libs/popper/popper.js"></script>
-    <script src="../assets/vendor/js/bootstrap.js"></script>
-    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
-    <script src="../assets/vendor/js/menu.js"></script>
-    <script src="../js/productForm.js"></script>
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-
-    <!-- Main JS -->
-    <script src="../assets/js/main.js"></script>
-
-    <!-- Page JS -->
-
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-  </body>
 </html>

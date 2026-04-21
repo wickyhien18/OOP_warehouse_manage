@@ -45,6 +45,21 @@ def get_inbound_receipts():
     """
     return jsonify(_svc.get_by_type('INBOUND')), 200
 
+@receipt_bp.route('/audit', methods=['GET'])
+@jwt_required()
+def get_audit_receipts():
+    """
+    API Lấy danh sách Phiếu Kiểm kê kèm chi tiết
+    ---
+    tags:
+      - Receipt
+    security:
+      - Bearer: []
+    responses:
+      200:
+        description: Danh sách phiếu kiểm kê
+    """
+    return jsonify(_svc.get_by_type('AUDIT')), 200
 
 # ── GET /outbound ─────────────────────────────────────────────────────────────
 @receipt_bp.route('/outbound', methods=['GET'])
@@ -180,6 +195,47 @@ def create_outbound():
     )
     return jsonify({"success": True, "message": "Đã thêm thông tin phiếu xuất thành công"}), 200
 
+# ── POST /audit ───────────────────────────────────────────────────────────────
+@receipt_bp.route('/audit', methods=['POST'])
+@jwt_required()
+def create_audit():
+    """
+    API Tạo phiếu kiểm kê và xử lý chênh lệch tồn kho
+    ---
+    tags:
+      - Receipt
+    security:
+      - Bearer: []
+    parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          required: [warehouse_name, staff_name, partner_name, items]
+          properties:
+            warehouse_name: {type: string, example: "KHO QUẬN 1"}
+            staff_name: {type: string, example: "NGUYEN VAN A"}
+            partner_name: {type: string, example: "Kiểm kê định kỳ tháng 4"}
+            items:
+              type: array
+              items:
+                type: object
+                properties:
+                  product_name: {type: string}
+                  quantity: {type: integer, description: "Số lượng thực tế đếm được"}
+    responses:
+      200:
+        description: Đã thực hiện kiểm kê và cập nhật kho thành công
+      400:
+        description: Dữ liệu không hợp lệ
+    """
+    data = request.get_json() or {}
+    _svc.create_audit(
+        data.get('warehouse_name'), data.get('staff_name'),
+        data.get('partner_name'), data.get('items')
+    )
+    return jsonify({"success": True, "message": "Đã thực hiện kiểm kê và cập nhật kho thành công"}), 200
 
 # ── DELETE /<id> ──────────────────────────────────────────────────────────────
 @receipt_bp.route('/<int:id>', methods=['DELETE'])

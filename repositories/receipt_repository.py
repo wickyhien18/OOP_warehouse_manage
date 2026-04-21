@@ -92,6 +92,12 @@ class ReceiptRepository(BaseRepository):
             (product_id, warehouse_id, quantity, action_type, receipt_id)
         )
 
+    def set_inventory_absolute(self, inv_id, actual_quantity):
+        """Đặt lại số lượng tồn kho theo số lượng thực tế đếm được (Dùng cho Kiểm kê)."""
+        return self.execute_db(
+            "UPDATE Inventory SET quantity = ? WHERE id = ?",
+            (actual_quantity, inv_id)
+        )
     # ── Queries ───────────────────────────────────────────────────────────────
 
     _DETAIL_SQL = """
