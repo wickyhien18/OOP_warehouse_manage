@@ -57,7 +57,7 @@ CREATE TABLE Inventory (
 -- 7. Bảng Phiếu Nhập/Xuất (Receipts)
 CREATE TABLE Receipts (
     id INT PRIMARY KEY IDENTITY(1,1),
-    type NVARCHAR(10) CHECK (type IN ('INBOUND', 'OUTBOUND')),
+    type NVARCHAR(10) CHECK (type IN ('INBOUND', 'OUTBOUND','AUDIT')),
     warehouse_id INT,
     staff_id INT,
     partner_name NVARCHAR(255),
