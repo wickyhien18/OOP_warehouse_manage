@@ -488,7 +488,7 @@
                         role_name: roleName,
                     }),
                     success: function(res) {
-                        roleFormModalInstance ? .hide();
+                        roleFormModalInstance ? hide() : pass;
                         showAlert("info", res.message || (isEdit ? "Role updated successfully." : "Role created successfully."));
                         loadRoles();
                     },
@@ -499,8 +499,8 @@
                         }
                         showFormAlert(
                             "error",
-                            xhr.responseJSON ? .message ||
-                            (isEdit ? "Failed to update role." : "Failed to create role."),
+                            xhr.responseJSON ? message ||
+                            (isEdit ? "Failed to update role." : "Failed to create role.") : pass,
                         );
                     },
                 });
@@ -599,8 +599,8 @@
                     filteredRolesData = [...rolesData];
                 } else {
                     filteredRolesData = rolesData.filter((role) => {
-                        const idText = String(role.id ? ? "").toLowerCase();
-                        const roleNameText = String(role.role_name ? ? "").toLowerCase();
+                        const idText = String(role.id ? "" : "").toLowerCase();
+                        const roleNameText = String(role.role_name ? "" : "").toLowerCase();
                         return idText.includes(keyword) || roleNameText.includes(keyword);
                     });
                 }
@@ -637,7 +637,7 @@
                     crossDomain: true,
                     success: function(res) {
                         pendingDeleteRoleId = null;
-                        deleteRoleModalInstance ? .hide();
+                        deleteRoleModalInstance ? hide() : pass;
                         showAlert("info", res.message || "Role deleted successfully.");
                         loadRoles();
                     },
@@ -647,10 +647,10 @@
                             return;
                         }
                         pendingDeleteRoleId = null;
-                        deleteRoleModalInstance ? .hide();
+                        deleteRoleModalInstance ? hide() : pass;
                         showAlert(
                             "error",
-                            xhr.responseJSON ? .message || "Failed to delete role.",
+                            xhr.responseJSON ? message || "Failed to delete role." : pass,
                         );
                     },
                 });
@@ -692,8 +692,8 @@
 
                         showAlert(
                             "error",
-                            xhr.responseJSON ? .message ||
-                            "Ban khong co quyen truy cap danh sach vai tro.",
+                            xhr.responseJSON ? message ||
+                            "Ban khong co quyen truy cap danh sach vai tro." : pass,
                         );
                         return;
                     },
